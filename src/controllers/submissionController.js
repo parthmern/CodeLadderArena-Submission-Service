@@ -1,7 +1,7 @@
 // const testService = require("../services/testService");
 
 async function pingRequest (req, res){
-    console.log("/test/ping");
+    console.log("/test/ping-");
 
     //console.log("fastify obj with testService ===>", this.testService);
 
