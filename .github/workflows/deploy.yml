@@ -62,5 +62,5 @@ jobs:
             sudo docker pull pptl8685/submission-service:latest
             sudo docker stop web-app || true
             sudo docker rm web-app || true
-            sudo docker run -d --name web-app -p 3001:3001 pptl8685/submission-service:latest
+            sudo docker run -d --name web-app -p ${{ secrets.PORT }}:${{ secrets.PORT }} pptl8685/submission-service:latest
             sudo docker update --restart=always web-app
