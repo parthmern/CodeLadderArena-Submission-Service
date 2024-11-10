@@ -1,0 +1,33 @@
+name: Build on PR
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PORT: ${{ secrets.PORT }}
+      REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      ATLAS_DB_URL: ${{ secrets.ATLAS_DB_URL }}
+      NODE_ENV: ${{ secrets.NODE_ENV }}
+      PROBLEM_ADMIN_SERVICE_URL: ${{ secrets.PROBLEM_ADMIN_SERVICE_URL }}
+      SOCKET_SERVICE_URL: ${{ secrets.SOCKET_SERVICE_URL }}
+
+    steps:
+      - name: Check Out Repo
+        uses: actions/checkout@v3
+      
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Tests
+        run: npm run test

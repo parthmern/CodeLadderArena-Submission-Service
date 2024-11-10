@@ -3,10 +3,11 @@
 async function pingRequest (req, res){
     console.log("/test/ping");
 
-    console.log("fastify obj with testService ===>", this.testService);
+    //console.log("fastify obj with testService ===>", this.testService);
 
-    const ans = await this.testService.pingCheck();
-    return res.send({data: ans});
+    return res.status(200).send({
+        "message": "Submission Service is alive 💚"
+    });
 }
 
 async function createSubmission(req, res) {
