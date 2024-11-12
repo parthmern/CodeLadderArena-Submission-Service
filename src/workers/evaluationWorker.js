@@ -6,15 +6,10 @@ const SubmissionRepository = require('../repositories/submissionRepository');
 const { SOCKET_SERVICE_URL } = require('../config/serverConfig');
 
 function evaluationWorker(queue) {
-    console.log('Worker initialized');
-    
     new Worker('EvaluationQueue', async job => {
+        if (job.name === 'EvaluationJob') {
 
-        try {
-            console.log("EvaluationQueue ==> job.name ==>", job.name);
-            if (job.name === 'EvaluationJob') {
-
-                console.log("EvaluationQueue ==> job.name ==>", job.name);
+            try {
 
                 // updating submission status in DB
 
@@ -29,12 +24,10 @@ function evaluationWorker(queue) {
                 console.log("sending payload ...");
                 console.log(response?.data);
                 console.log(job.data);
-
+            } catch(error) {
+                console.log(error)
             }
-        }catch(error){
-            console.error("Worker encountered an error:", error);
         }
-
     }, {
         connection: redisConnection
     });

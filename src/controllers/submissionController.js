@@ -1,13 +1,12 @@
 // const testService = require("../services/testService");
 
 async function pingRequest (req, res){
-    console.log("/test/ping-");
+    console.log("/test/ping");
 
-    //console.log("fastify obj with testService ===>", this.testService);
+    console.log("fastify obj with testService ===>", this.testService);
 
-    return res.status(200).send({
-        "message": "Submission Service is alive 💚"
-    });
+    const ans = await this.testService.pingCheck();
+    return res.send({data: ans});
 }
 
 async function createSubmission(req, res) {

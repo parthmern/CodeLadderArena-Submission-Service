@@ -3,17 +3,9 @@ const Redis = require('ioredis');
 const ServerConfig = require('./serverConfig');
 
 const redisConfig = {
-    port: ServerConfig.REDIS_PORT,
+    port:ServerConfig.REDIS_PORT,
     host: ServerConfig.REDIS_HOST,
-    maxRetriesPerRequest: null,
-    reconnectOnError: (error) => {
-        console.log('Redis reconnecting due to error:', error);
-        return true; // Automatically reconnect on error
-    },
-    maxRetriesPerRequest: null,  // Disable max retry limit
-    retryStrategy: (times) => {
-        return Math.min(times * 50, 2000); // Exponential backoff strategy
-    }
+    maxRetriesPerRequest: null
 };
 
 let redisConnection;
