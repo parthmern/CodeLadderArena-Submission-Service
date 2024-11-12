@@ -17,6 +17,6 @@ fastify.listen({ port: PORT, host: '0.0.0.0'},async (err) => {
     await connectToDB();
     console.log(`💚 Submission service started at ${PORT}`);
 
-    evaluationWorker('EvaluationQueue');
+    await evaluationWorker('EvaluationQueue');
 })
   
