@@ -4,32 +4,33 @@ const axios = require('axios');
 const { updateSubmission } = require('../controllers/submissionController');
 const SubmissionRepository = require('../repositories/submissionRepository');
 const { SOCKET_SERVICE_URL } = require('../config/serverConfig');
-
-function evaluationWorker(queue) {
-    new Worker('EvaluationQueue', async job => {
+async function evaluationWorker(queue) {
+    new Worker('EvaluationQueue', async (job) => {
+        console.log("EvaluationQueue====EvaluationJob===>", job.name);
+        
         if (job.name === 'EvaluationJob') {
-
             try {
+                console.log("Job data:", job.data);
 
-                // updating submission status in DB
-
+                // Updating submission status in DB
                 const submissionRepo = new SubmissionRepository();
                 const res = await submissionRepo.updateSubmission(job.data);
-                console.log("res====>", res);
+                console.log("Submission update response====>", res);
 
+                // Sending payload to another service
                 const response = await axios.post(`${SOCKET_SERVICE_URL}/sendPayload`, {
                     userId: job.data.userId,
                     payload: job.data
-                })
-                console.log("sending payload ...");
-                console.log(response?.data);
-                console.log(job.data);
-            } catch(error) {
-                console.log(error)
+                });
+                console.log("Payload sent:", response?.data);
+
+            } catch (error) {
+                console.error("Error processing job:", error);
             }
         }
     }, {
-        connection: redisConnection
+        connection: redisConnection,
+        concurrency: 5,  // Limit concurrency for debugging or scaling
     });
 }
 
