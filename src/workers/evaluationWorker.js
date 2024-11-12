@@ -7,6 +7,7 @@ const { SOCKET_SERVICE_URL } = require('../config/serverConfig');
 
 function evaluationWorker(queue) {
     new Worker('EvaluationQueue', async job => {
+        console.log("EvaluationQueue ==> job.name ==>", job.name);
         if (job.name === 'EvaluationJob') {
 
             try {
