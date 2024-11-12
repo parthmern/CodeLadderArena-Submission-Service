@@ -31,6 +31,8 @@ async function evaluationWorker(queue) {
     }, {
         connection: redisConnection,
         concurrency: 5,  // Limit concurrency for debugging or scaling
+        stalledInterval: 30000, // Check for stalled jobs every 30 seconds
+        maxStalledCount: 3, // Consider a job stalled after 3 checks    
     });
 
     worker.on('ready', () => {
@@ -52,6 +54,8 @@ async function evaluationWorker(queue) {
     worker.on('stalled', (jobId) => {
         console.warn(`Job ${jobId} has stalled`);
     });
+
+    return worker;
 
 }
 
