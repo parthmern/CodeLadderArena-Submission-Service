@@ -10,7 +10,12 @@ async function app(fastify,option) {
 
     await fastify.register(servicePlugin);
 
+    fastify.get('/', async (request, reply) => {
+        return { status: 'alive' };
+    });
+
     await fastify.register( require("./routes/api/apiRoutes"), {prefix : '/api'} );
+
 
 }
 
