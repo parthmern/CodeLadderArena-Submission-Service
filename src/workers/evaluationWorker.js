@@ -5,7 +5,7 @@ const { updateSubmission } = require('../controllers/submissionController');
 const SubmissionRepository = require('../repositories/submissionRepository');
 const { SOCKET_SERVICE_URL } = require('../config/serverConfig');
 async function evaluationWorker(queue) {
-    new Worker('EvaluationQueue', async (job) => {
+    const worker = new Worker('EvaluationQueue', async (job) => {
         console.log("EvaluationQueue====EvaluationJob===>", job.name);
         
         if (job.name === 'EvaluationJob') {
@@ -32,6 +32,27 @@ async function evaluationWorker(queue) {
         connection: redisConnection,
         concurrency: 5,  // Limit concurrency for debugging or scaling
     });
+
+    worker.on('ready', () => {
+        console.log('Worker is ready to process jobs');
+    });
+
+    worker.on('error', (error) => {
+        console.error('Worker encountered an error:', error);
+    });
+
+    worker.on('failed', (job, err) => {
+        console.error(`Job ${job.id} failed with error:`, err);
+    });
+
+    worker.on('completed', (job) => {
+        console.log(`Job ${job.id} completed successfully`);
+    });
+
+    worker.on('stalled', (jobId) => {
+        console.warn(`Job ${jobId} has stalled`);
+    });
+
 }
 
 module.exports = evaluationWorker;
