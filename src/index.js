@@ -12,7 +12,7 @@ fastify.listen({ port: PORT, host: '0.0.0.0'},async (err) => {
     if (err) {
       fastify.log.error(err)
       process.exit(1)
-    }
+    } 
     
     await connectToDB();
     console.log(`💚 Submission service started at ${PORT}`);
