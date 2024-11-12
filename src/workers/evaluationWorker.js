@@ -29,7 +29,8 @@ function evaluationWorker(queue) {
 
         }
     }, {
-        connection: redisConnection
+        connection: redisConnection,
+        concurrency: 5 
     });
 }
 
