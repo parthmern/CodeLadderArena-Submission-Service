@@ -75,7 +75,7 @@ class SubmissionService {
         submissionId: createdSubmission._id,
       },
     });
-
+    console.log("submission queue produced");
     return { queueResponse: response, submission: createdSubmission };
   }
 
