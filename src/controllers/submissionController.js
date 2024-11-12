@@ -13,6 +13,7 @@ async function createSubmission(req, res) {
     console.log(req.body);
     //console.log("create submission", this.submissionService); // fastify obj
     const response = await this.submissionService.addSubmission(req.body);
+    console.log("sending back res-Created submission successfully");
     return res.status(201).send({
         error: {},
         data: response,
