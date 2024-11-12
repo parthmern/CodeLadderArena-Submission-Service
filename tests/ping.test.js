@@ -18,20 +18,21 @@ afterAll(async () => {
     await fastify.close(); 
 });
 
-// describe('Integration tests for Fastify server', () => {
-//     // it('should respond with a JSON message on GET /ping', async () => {
-//     //     const response = await request(fastify.server).get('/api/v1/submission/ping');
-//     //     expect(response.statusCode).toBe(200);
-//     //     expect(response.body.message).toContain('Submission Service is alive 💚');
-//     // });
+describe('Integration tests for Fastify server', () => {
+    // it('should respond with a JSON message on GET /ping', async () => {
+    //     const response = await request(fastify.server).get('/api/v1/submission/ping');
+    //     expect(response.statusCode).toBe(200);
+    //     expect(response.body.message).toContain('Submission Service is alive 💚');
+    // });
 
-//     // it('should call connectToDB and evaluationWorker', async () => {
-//     //     // call func
-//     //     await connectToDB();
-//     //     evaluationWorker('EvaluationQueue');
+    it('should call connectToDB and evaluationWorker', async () => {
+        // call func
+        await connectToDB();
+        evaluationWorker('EvaluationQueue');
 
-//     //     // ensuring called or not
-//     //     expect(connectToDB).toHaveBeenCalled();
-//     //     expect(evaluationWorker).toHaveBeenCalledWith('EvaluationQueue');
-//     // });
-// });
+        // ensuring called or not
+        expect(connectToDB).toHaveBeenCalled();
+        expect(evaluationWorker).toHaveBeenCalledWith('EvaluationQueue');
+    });
+});
+
