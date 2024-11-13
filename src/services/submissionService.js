@@ -40,6 +40,7 @@ class SubmissionService {
 
     submission.testCases = languageCodeStub.testCases;
 
+    console.log("Creating submission in db");
     const createdSubmission = await this.submissionRepository.createSubmission(
       submission
     );
@@ -62,6 +63,7 @@ class SubmissionService {
     //     }
     // });
 
+    console.log("trying to add job in submissionQueue");
     // Adding job into submissionQueue
     const response = await submissionQueueProducer({
       [createdSubmission._id]: {
