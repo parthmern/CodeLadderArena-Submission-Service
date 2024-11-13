@@ -30,12 +30,12 @@ async function app(fastify, option) {
 
             // Sending payload to another service
             console.log("hitting /sendPayload");
-            const response = await axios.post(`${SOCKET_SERVICE_URL}/sendPayload`, {
+            const response = await axios.post(`https://socketservice.parthmern.store/sendPayload`, {
                 userId: payload.userId,
                 payload: payload.data
             });
             console.log("Payload sent:", response?.data);
-            
+
             return reply.status(200).send({
                 status: 'success',
                 message: 'Request was evaluated successfully',
