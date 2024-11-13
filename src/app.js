@@ -33,7 +33,7 @@ async function app(fastify, option) {
             console.log("hitting /sendPayload");
             const response = await axios.post(`https://socketservice.parthmern.store/sendPayload`, {
                 userId: payload.userId,
-                payload: payload.data
+                payload: payload
             });
             console.log("Payload sent:", response?.data);
 
