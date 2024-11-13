@@ -2,6 +2,7 @@ const fastifyPlugin = require('fastify-plugin');
 const servicePlugin = require('./services/servicePlugin');
 const repositoryPlugin = require('./repositories/repositoryPlugin');
 const SubmissionRepository = require('./repositories/submissionRepository');
+const { default: axios } = require('axios');
 
 async function app(fastify, option) {
 
