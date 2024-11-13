@@ -6,6 +6,7 @@ class SubmissionRepository {
     }
 
     async createSubmission(submission) {
+        console.log("creating submission in db under submission repo ...");
         const response = await this.submissionModel.create(submission);
         return response;
     }
