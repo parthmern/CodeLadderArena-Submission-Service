@@ -7,7 +7,7 @@ module.exports = {
     NODE_ENV: process.env.NODE_ENV,
     REDIS_PORT: process.env.REDIS_PORT || "6379",
     REDIS_HOST: process.env.REDIS_HOST || '127.0.0.1',
-    REDIS_PASSWORD: process.env.REDIS_PASSWORD,
+    REDIS_PASSWORD: process.env.REDIS_PASSWORD || null,
     PROBLEM_ADMIN_SERVICE_URL: process.env.PROBLEM_ADMIN_SERVICE_URL,
     SOCKET_SERVICE_URL : process.env.SOCKET_SERVICE_URL
 }

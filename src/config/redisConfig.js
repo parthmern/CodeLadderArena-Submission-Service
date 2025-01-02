@@ -6,8 +6,8 @@ const redisConfig = {
     port:ServerConfig.REDIS_PORT,
     host: ServerConfig.REDIS_HOST,
     password : ServerConfig.REDIS_PASSWORD,
-    maxRetriesPerRequest: null,
-    retryStrategy: times => Math.min(times * 50, 2000)  // retry logic
+    // maxRetriesPerRequest: null,
+    // retryStrategy: times => Math.min(times * 50, 2000)  // retry logic
 };
 
 let redisConnection;
