@@ -16,6 +16,7 @@ jobs:
       NODE_ENV: ${{ secrets.NODE_ENV }}
       PROBLEM_ADMIN_SERVICE_URL: ${{ secrets.PROBLEM_ADMIN_SERVICE_URL }}
       SOCKET_SERVICE_URL: ${{ secrets.SOCKET_SERVICE_URL }}
+      REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
 
     steps:
       - name: Check Out Repo
