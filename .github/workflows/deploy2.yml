@@ -65,7 +65,7 @@ jobs:
             sudo docker pull pptl8685/submission-service-ss:latest
             sudo docker stop web-app-ss || true
             sudo docker rm web-app-ss || true
-            sudo docker run -d --name web-app-ss -p ${{ secrets.PORT }}:${{ secrets.PORT }} \
+            sudo docker run -d --name web-app-ss --restart=always -p ${{ secrets.PORT }}:${{ secrets.PORT }} \
               -e PORT=${{ secrets.PORT }} \
               -e REDIS_PORT=${{ secrets.REDIS_PORT }} \
               -e REDIS_HOST=${{ secrets.REDIS_HOST }} \
@@ -76,8 +76,8 @@ jobs:
               -e SOCKET_SERVICE_URL=${{ secrets.SOCKET_SERVICE_URL }} \
               pptl8685/submission-service-ss:latest
 
-            # Print all environment variables inside the running container
-            sudo docker exec web-app-ss env
+            # Verify container is running
+            sudo docker ps | grep web-app-ss
 
-            # Update container to always restart
-            sudo docker update --restart=always web-app-ss
+            # Print logs if container failed to start
+            sudo docker logs web-app-ss
