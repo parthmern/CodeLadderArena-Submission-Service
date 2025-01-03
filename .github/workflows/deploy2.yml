@@ -65,7 +65,7 @@ jobs:
             # Pull the latest image
             sudo docker pull pptl8685/submission-service-ss:latest
 
-            # Check if container exists
+            # Check if the container exists
             if sudo docker ps -a --format '{{.Names}}' | grep -q "web-app-ss"; then
               # Stop and remove if container exists
               sudo docker stop web-app-ss
@@ -91,4 +91,4 @@ jobs:
             sudo docker exec web-app-ss env
 
             # Set the container to restart automatically if needed
-            sudo docker update --restart=always web-app-ss 
+            sudo docker update --restart=always web-app-ss
