@@ -18,7 +18,7 @@ fastify.listen({ port: PORT, host: '0.0.0.0' },async (err) => {
     await connectToDB();
     console.log(`💚 Submission service started at ${PORT}, redis host ${REDIS_HOST} and pass ${REDIS_PASSWORD}`);
 
-    //evaluationWorker('EvaluationQueue');
+    // evaluationWorker('EvaluationQueue');
     
 })
   

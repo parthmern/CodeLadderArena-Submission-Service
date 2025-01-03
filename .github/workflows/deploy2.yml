@@ -91,4 +91,4 @@ jobs:
             sudo docker exec web-app-ss env
 
             # Set the container to restart automatically if needed
-            sudo docker update --restart=always web-app-ss
+            sudo docker update --restart=always web-app-ss 
