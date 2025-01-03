@@ -50,7 +50,7 @@ jobs:
             NODE_ENV=${{ secrets.NODE_ENV }}
             PROBLEM_ADMIN_SERVICE_URL=${{ secrets.PROBLEM_ADMIN_SERVICE_URL }}
             SOCKET_SERVICE_URL=${{ secrets.SOCKET_SERVICE_URL }}
-          no-cache: true  # Ensures no cache is used during the build
+          no-cache: true
 
       - name: Verify Pushed Image
         run: docker pull pptl8685/submission-service-ss:latest
