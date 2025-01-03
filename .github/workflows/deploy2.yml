@@ -65,19 +65,5 @@ jobs:
             sudo docker pull pptl8685/submission-service-ss:latest
             sudo docker stop web-app-ss || true
             sudo docker rm web-app-ss || true
-            sudo docker run -d --name web-app-ss --restart=always -p ${{ secrets.PORT }}:${{ secrets.PORT }} \
-              -e PORT=${{ secrets.PORT }} \
-              -e REDIS_PORT=${{ secrets.REDIS_PORT }} \
-              -e REDIS_HOST=${{ secrets.REDIS_HOST }} \
-              -e REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} \
-              -e ATLAS_DB_URL=${{ secrets.ATLAS_DB_URL }} \
-              -e NODE_ENV=${{ secrets.NODE_ENV }} \
-              -e PROBLEM_ADMIN_SERVICE_URL=${{ secrets.PROBLEM_ADMIN_SERVICE_URL }} \
-              -e SOCKET_SERVICE_URL=${{ secrets.SOCKET_SERVICE_URL }} \
-              pptl8685/submission-service-ss:latest
-
-            # Verify container is running
-            sudo docker ps | grep web-app-ss
-
-            # Print logs if container failed to start
-            sudo docker logs web-app-ss
+            sudo docker run -d --name web-app-ss --restart=always -p ${{ secrets.PORT }}:${{ secrets.PORT }} pptl8685/submission-service-ss:latest
+            sudo docker update --restart=always web-app-ss
