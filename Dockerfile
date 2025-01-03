@@ -11,7 +11,7 @@ ARG SOCKET_SERVICE_URL
 
 WORKDIR /usr/app/
 
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json ./ 
 
 COPY src ./src
 
@@ -27,4 +27,5 @@ ENV NODE_ENV=$NODE_ENV
 ENV PROBLEM_ADMIN_SERVICE_URL=$PROBLEM_ADMIN_SERVICE_URL
 ENV SOCKET_SERVICE_URL=$SOCKET_SERVICE_URL
 
-CMD ["npm", "run", "dev"]
+# Print all environment variables when the container starts
+CMD printenv && npm run dev

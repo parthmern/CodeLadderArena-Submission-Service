@@ -12,11 +12,11 @@ jobs:
       PORT: ${{ secrets.PORT }}
       REDIS_PORT: ${{ secrets.REDIS_PORT }}
       REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
       ATLAS_DB_URL: ${{ secrets.ATLAS_DB_URL }}
       NODE_ENV: ${{ secrets.NODE_ENV }}
       PROBLEM_ADMIN_SERVICE_URL: ${{ secrets.PROBLEM_ADMIN_SERVICE_URL }}
       SOCKET_SERVICE_URL: ${{ secrets.SOCKET_SERVICE_URL }}
-      REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
 
     steps:
       - name: Check Out Repo
@@ -50,7 +50,7 @@ jobs:
             NODE_ENV=${{ secrets.NODE_ENV }}
             PROBLEM_ADMIN_SERVICE_URL=${{ secrets.PROBLEM_ADMIN_SERVICE_URL }}
             SOCKET_SERVICE_URL=${{ secrets.SOCKET_SERVICE_URL }}
-          no-cache: true
+          no-cache: true  # Ensures no cache is used during the build
 
       - name: Verify Pushed Image
         run: docker pull pptl8685/submission-service-ss:latest
@@ -62,17 +62,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME_NEW }}
           key: ${{ secrets.SSH_KEY_NEW }}
           script: |
-            # Pull the latest image
             sudo docker pull pptl8685/submission-service-ss:latest
-
-            # Check if the container exists
-            if sudo docker ps -a --format '{{.Names}}' | grep -q "web-app-ss"; then
-              # Stop and remove if container exists
-              sudo docker stop web-app-ss
-              sudo docker rm web-app-ss
-            fi
-
-            # Run the container with environment variables
+            sudo docker stop web-app-ss || true
+            sudo docker rm web-app-ss || true
             sudo docker run -d --name web-app-ss -p ${{ secrets.PORT }}:${{ secrets.PORT }} \
               -e PORT=${{ secrets.PORT }} \
               -e REDIS_PORT=${{ secrets.REDIS_PORT }} \
@@ -84,11 +76,8 @@ jobs:
               -e SOCKET_SERVICE_URL=${{ secrets.SOCKET_SERVICE_URL }} \
               pptl8685/submission-service-ss:latest
 
-            # Wait for the container to start before running the exec command
-            sleep 5
-
             # Print all environment variables inside the running container
             sudo docker exec web-app-ss env
 
-            # Set the container to restart automatically if needed
+            # Update container to always restart
             sudo docker update --restart=always web-app-ss
