@@ -45,11 +45,12 @@ jobs:
             PORT=${{ secrets.PORT }}
             REDIS_PORT=${{ secrets.REDIS_PORT }}
             REDIS_HOST=${{ secrets.REDIS_HOST }}
-            REDIS_PASSWORD= ${{ secrets.REDIS_PASSWORD }}
+            REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
             ATLAS_DB_URL=${{ secrets.ATLAS_DB_URL }}
             NODE_ENV=${{ secrets.NODE_ENV }}
             PROBLEM_ADMIN_SERVICE_URL=${{ secrets.PROBLEM_ADMIN_SERVICE_URL }}
             SOCKET_SERVICE_URL=${{ secrets.SOCKET_SERVICE_URL }}
+          no-cache: true  # Ensures no cache is used during the build
 
       - name: Verify Pushed Image
         run: docker pull pptl8685/submission-service-ss:latest
@@ -64,5 +65,19 @@ jobs:
             sudo docker pull pptl8685/submission-service-ss:latest
             sudo docker stop web-app-ss || true
             sudo docker rm web-app-ss || true
-            sudo docker run -d --name web-app-ss -p ${{ secrets.PORT }}:${{ secrets.PORT }} pptl8685/submission-service-ss:latest
+            sudo docker run -d --name web-app-ss -p ${{ secrets.PORT }}:${{ secrets.PORT }} \
+              -e PORT=${{ secrets.PORT }} \
+              -e REDIS_PORT=${{ secrets.REDIS_PORT }} \
+              -e REDIS_HOST=${{ secrets.REDIS_HOST }} \
+              -e REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} \
+              -e ATLAS_DB_URL=${{ secrets.ATLAS_DB_URL }} \
+              -e NODE_ENV=${{ secrets.NODE_ENV }} \
+              -e PROBLEM_ADMIN_SERVICE_URL=${{ secrets.PROBLEM_ADMIN_SERVICE_URL }} \
+              -e SOCKET_SERVICE_URL=${{ secrets.SOCKET_SERVICE_URL }} \
+              pptl8685/submission-service-ss:latest
+
+            # Print all environment variables inside the running container
+            sudo docker exec web-app-ss env
+
+            # Update container to always restart
             sudo docker update --restart=always web-app-ss
