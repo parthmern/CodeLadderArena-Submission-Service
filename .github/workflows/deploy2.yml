@@ -65,9 +65,12 @@ jobs:
             # Pull the latest image
             sudo docker pull pptl8685/submission-service-ss:latest
 
-            # Stop and remove the existing container if it exists
-            sudo docker stop web-app-ss || true
-            sudo docker rm web-app-ss || true
+            # Check if container exists
+            if sudo docker ps -a --format '{{.Names}}' | grep -q "web-app-ss"; then
+              # Stop and remove if container exists
+              sudo docker stop web-app-ss
+              sudo docker rm web-app-ss
+            fi
 
             # Run the container with environment variables
             sudo docker run -d --name web-app-ss -p ${{ secrets.PORT }}:${{ secrets.PORT }} \
