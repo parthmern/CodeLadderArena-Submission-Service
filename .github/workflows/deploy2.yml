@@ -62,9 +62,14 @@ jobs:
           username: ${{ secrets.SSH_USERNAME_NEW }}
           key: ${{ secrets.SSH_KEY_NEW }}
           script: |
+            # Pull the latest image
             sudo docker pull pptl8685/submission-service-ss:latest
+
+            # Stop and remove the existing container if it exists
             sudo docker stop web-app-ss || true
             sudo docker rm web-app-ss || true
+
+            # Run the container with environment variables
             sudo docker run -d --name web-app-ss -p ${{ secrets.PORT }}:${{ secrets.PORT }} \
               -e PORT=${{ secrets.PORT }} \
               -e REDIS_PORT=${{ secrets.REDIS_PORT }} \
@@ -76,8 +81,11 @@ jobs:
               -e SOCKET_SERVICE_URL=${{ secrets.SOCKET_SERVICE_URL }} \
               pptl8685/submission-service-ss:latest
 
+            # Wait for the container to start before running the exec command
+            sleep 5
+
             # Print all environment variables inside the running container
             sudo docker exec web-app-ss env
 
-            # Update container to always restart
+            # Set the container to restart automatically if needed
             sudo docker update --restart=always web-app-ss
