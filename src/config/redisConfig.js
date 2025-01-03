@@ -12,7 +12,7 @@ const redisConfig = {
 
 let redisConnection;
 
-
+    console.log(redisConfig);
     redisConnection = new Redis(redisConfig);
     // redisConnection.on('connect', () => {
     //     console.log("❤️  Redis connection done");
